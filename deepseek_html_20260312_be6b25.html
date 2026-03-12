@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧩 TEA & ABA • Guia interativo completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        body {
+            background: #f4f7fc;
+            color: #1e2b3c;
+            line-height: 1.5;
+        }
+        /* menu lateral fixo */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: #0b2a3e;
+            color: white;
+            overflow-y: auto;
+            padding: 1.5rem 0.5rem;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.8rem;
+            padding-left: 0.8rem;
+            border-left: 5px solid #6ab0e6;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar li {
+            margin-bottom: 0.5rem;
+        }
+        .sidebar a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #e0e9f0;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: 0.2s;
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+        .sidebar a:hover {
+            background: #1d4b67;
+            color: white;
+        }
+        .sidebar .section-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #9fc9f0;
+            padding-left: 0.5rem;
+        }
+        /* conteúdo principal */
+        .main-content {
+            margin-left: 270px;
+            padding: 2rem 2.5rem;
+            max-width: 1400px;
+        }
+        @media (max-width: 900px) {
+            .sidebar { width: 200px; }
+            .main-content { margin-left: 210px; padding: 1.5rem; }
+        }
+        @media (max-width: 700px) {
+            .sidebar { position: relative; width: 100%; height: auto; }
+            .main-content { margin-left: 0; }
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #0b2a3e;
+            border-bottom: 4px solid #6ab0e6;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        h2 {
+            font-size: 2rem;
+            margin: 2rem 0 1rem;
+            color: #1d4b67;
+        }
+        h3 {
+            font-size: 1.6rem;
+            margin: 1.8rem 0 1rem;
+            color: #2b5f7a;
+        }
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.8rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            flex: 1 1 300px;
+            border: 1px solid rgba(0,40,70,0.08);
+            transition: 0.2s;
+        }
+        .card:hover { box-shadow: 0 12px 25px rgba(0,60,100,0.1); }
+        .infographic {
+            background: #e6f2fa;
+            border-radius: 28px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .col {
+            flex: 1 1 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        th {
+            background: #1d4b67;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem;
+        }
+        td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #d9e2ec;
+        }
+        .badge {
+            background: #6ab0e6;
+            color: #0b2a3e;
+            font-weight: 600;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        /* flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .flashcard {
+            width: 220px;
+            height: 260px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 20px;
+            background: white;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #cbdae6;
+        }
+        .flashcard-front {
+            background: #f0f7ff;
+            color: #0b2a3e;
+        }
+        .flashcard-back {
+            background: #1d4b67;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        .flashcard-back ul {
+            text-align: left;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        .btn {
+            background: #1d4b67;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+        .btn:hover { background: #0b2a3e; }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1d4b67;
+            color: #1d4b67;
+        }
+        .btn-outline:hover { background: #1d4b67; color: white; }
+        .simulado-item {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            border-left: 6px solid #6ab0e6;
+        }
+        .resp-btn {
+            background: #e6f2fa;
+            border: none;
+            color: #1d4b67;
+            font-weight: 600;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .answer { display: none; margin-top: 1rem; padding: 1rem; background: #f0f7ff; border-radius: 12px; }
+        .answer.show { display: block; }
+        .footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: #4f6f8a;
+            border-top: 1px dashed #b0c9dd;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- menu lateral -->
+    <div class="sidebar">
+        <h2>🧠 TEA & ABA</h2>
+        <ul>
+            <li><a href="#inicio">🏠 Início</a></li>
+            <li class="section-title">📘 Fundamentos</li>
+            <li><a href="#tea-fund">1. TEA (DSM-5)</a></li>
+            <li><a href="#cognitivo">2. Teorias Cognitivas</a></li>
+            <li><a href="#aba-fund">3. ABA - ABC</a></li>
+            <li><a href="#principios">4. 7 Princípios</a></li>
+            <li><a href="#tecnicas">5. Técnicas</a></li>
+            <li><a href="#avaliacao">6. Avaliação</a></li>
+            <li><a href="#desenvolvimento">7. Desenvolvimento</a></li>
+            <li><a href="#inclusao">8. Inclusão</a></li>
+            <li class="section-title">📋 Aplicação</li>
+            <li><a href="#casos">📌 Casos práticos</a></li>
+            <li><a href="#simulado">📝 Simulado</a></li>
+            <li><a href="#colarapida">⚡ Cola rápida</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="inicio">
+        <h1>🧩 Transtorno do Espectro Autista<br> & Análise do Comportamento Aplicada</h1>
+        <p style="font-size:1.2rem; background: white; padding: 1.5rem; border-radius: 30px;">Material completo reunindo guia teórico, casos, simulado e infográficos interativos. Navegue pelo menu lateral.</p>
+
+        <!-- gráfico funções do comportamento (infográfico simples) -->
+        <section id="tea-fund">
+            <h2>📌 TEA – díade DSM-5</h2>
+            <div class="infographic row" style="justify-content:center; gap:2rem;">
+                <div class="card" style="flex:1; text-align:center;"><span style="font-size:3rem;">🗣️</span><h3>Comunicação social</h3><p>Déficits na reciprocidade, contato visual, linguagem não verbal.</p></div>
+                <div class="card" style="flex:1; text-align:center;"><span style="font-size:3rem;">🔄</span><h3>Comportamentos restritos</h3><p>Estereotipias, rigidez, interesses fixos, hiper/hiporreatividade sensorial.</p></div>
+            </div>
+            <table>
+                <tr><th>Nível</th><th>Suporte</th><th>Exemplo</th></tr>
+                <tr><td>1</td><td>Requer suporte</td><td>Dificuldade em iniciar interações</td></tr>
+                <tr><td>2</td><td>Substancial</td><td>Comunicação limitada, precisa de ajuda</td></tr>
+                <tr><td>3</td><td>Muito substancial</td><td>Déficits graves, assistência constante</td></tr>
+            </table>
+        </section>
+
+        <section id="cognitivo">
+            <h2>🧠 Teorias cognitivas</h2>
+            <div class="card-grid">
+                <div class="card"><span style="font-size:2rem;">🎭</span> <strong>Teoria da Mente</strong> – entender perspectivas. Teste Sally-Anne.</div>
+                <div class="card"><span style="font-size:2rem;">🌳</span> <strong>Coerência central fraca</strong> – foco em detalhes.</div>
+                <div class="card"><span style="font-size:2rem;">📋</span> <strong>Disfunção executiva</strong> – planejamento, flexibilidade.</div>
+            </div>
+        </section>
+
+        <section id="aba-fund">
+            <h2>⚙️ ABA – tríplice contingência (ABC)</h2>
+            <div style="display:flex; justify-content:space-around; background:#eef5fa; border-radius:50px; padding:2rem; font-size:1.5rem; font-weight:bold;">
+                <span style="background:#0b2a3e; color:white; padding:0.7rem 1.5rem; border-radius:30px;">A (antecedente)</span>
+                <span style="background:#1d4b67; color:white; padding:0.7rem 1.5rem; border-radius:30px;">→ B (comportamento) →</span>
+                <span style="background:#6ab0e6; color:#0b2a3e; padding:0.7rem 1.5rem; border-radius:30px;">C (consequência)</span>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h3>Reforço vs Punição</h3>
+                    <table>
+                        <tr><th></th><th>Adiciona (+)</th><th>Remove (-)</th></tr>
+                        <tr><td>Aumenta</td><td>Reforço +</td><td>Reforço -</td></tr>
+                        <tr><td>Diminui</td><td>Punição +</td><td>Punição -</td></tr>
+                    </table>
+                </div>
+                <div class="col">
+                    <h3>4 funções (ATFS)</h3>
+                    <ul style="background:white; padding:1.5rem; border-radius:20px;">
+                        <li>🔴 Atenção</li>
+                        <li>🧸 Tangível</li>
+                        <li>🏃 Fuga/Esquiva</li>
+                        <li>🎵 Sensorial</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="principios">
+            <h2>📐 7 princípios da ABA (AGETCBA)</h2>
+            <!-- flashcards interativos -->
+            <div class="flashcard-container" id="flashcardsPrincipios">
+                <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-front">Aplicada</div><div class="flashcard-back">comportamentos socialmente significativos</div></div></div>
+                <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-front">Comportamental</div><div class="flashcard-back">observável e mensurável</div></div></div>
+                <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-front">Analítica</div><div class="flashcard-back">relação funcional demonstrada</div></div></div>
+                <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-front">Tecnológica</div><div class="flashcard-back">procedimentos replicáveis</div></div></div>
+                <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-front">Conceitual</div><div class="flashcard-back">baseada em princípios</div></div></div>
+                <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-front">Eficaz</div><div class="flashcard-back">mudança prática significativa</div></div></div>
+                <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-front">Generalizável</div><div class="flashcard-back">mantém e generaliza</div></div></div>
+            </div>
+            <p class="badge">clique nos cards para virar</p>
+        </section>
+
+        <section id="tecnicas">
+            <h2>🛠️ Técnicas comportamentais</h2>
+            <div class="row">
+                <div class="col">
+                    <h3>DTT</h3>
+                    <p>SD → Resposta → Consequência → Intervalo</p>
+                </div>
+                <div class="col">
+                    <h3>Hierarquia de dicas</h3>
+                    <p>Física → Modelação → Gestual → Verbal → Independente</p>
+                </div>
+                <div class="col">
+                    <h3>DRA / DRI / DRO</h3>
+                    <p>Alternativo / Incompatível / Outros</p>
+                </div>
+            </div>
+            <table>
+                <tr><th>Estratégia</th><th>Uso</th></tr>
+                <tr><td>Most-to-least</td><td>habilidades novas</td></tr>
+                <tr><td>Least-to-most</td><td>avaliar independência</td></tr>
+                <tr><td>FCT</td><td>comunicação substitui comportamento problema</td></tr>
+            </table>
+        </section>
+
+        <section id="avaliacao">
+            <h2>📊 Avaliação</h2>
+            <p><strong>VB-MAPP, ABLLS-R, AFLS</strong> • MSWO (preferências) • Registro: frequência, duração, latência</p>
+        </section>
+
+        <section id="desenvolvimento">
+            <h2>👶 Desenvolvimento infantil</h2>
+            <p><span class="badge">Red flags: 12m não responde nome • 14m não aponta • 18m sem faz-de-conta</span></p>
+            <p>EIBI, ESDM, JASPER, PRT – intervenção precoce</p>
+        </section>
+
+        <section id="inclusao">
+            <h2>🏫 Inclusão escolar</h2>
+            <p>Lei Berenice Piana (12.764/2012) • LBI • TEACCH • adaptações são direito</p>
+        </section>
+
+        <!-- CASOS PRÁTICOS -->
+        <section id="casos">
+            <h2>📖 5 casos práticos com análise ABA</h2>
+            <details>
+                <summary style="font-size:1.4rem; cursor:pointer;">🔹 Caso 1: Miguel (fuga da escrita)</summary>
+                <div style="background:white; padding:1.5rem; border-radius:20px; margin-top:1rem;">
+                    <p><strong>Função:</strong> fuga/esquiva (reforço negativo). <strong>Intervenção:</strong> simplificar tarefa, FCT (pedir ajuda), reforçar permanecer sentado.</p>
+                </div>
+            </details>
+            <details>
+                <summary style="font-size:1.4rem; cursor:pointer;">🔹 Caso 2: Laura (atenção)</summary>
+                <div style="background:white; padding:1.5rem; border-radius:20px; margin-top:1rem;">
+                    <p><strong>Função:</strong> atenção. <strong>Plano:</strong> extinção + DRA + atenção não contingente + ensinar tolerância à espera.</p>
+                </div>
+            </details>
+            <details>
+                <summary style="font-size:1.4rem; cursor:pointer;">🔹 Caso 3: Rafael (seletividade alimentar)</summary>
+                <div style="background:white; padding:1.5rem; border-radius:20px; margin-top:1rem;">
+                    <p><strong>Abordagem:</strong> multidisciplinar, hierarquia de exposição, dessensibilização.</p>
+                </div>
+            </details>
+            <details>
+                <summary style="font-size:1.4rem; cursor:pointer;">🔹 Caso 4: Sofia (transições)</summary>
+                <div style="background:white; padding:1.5rem; border-radius:20px; margin-top:1rem;">
+                    <p><strong>Estratégias:</strong> cronograma visual, avisos graduais, objeto de transição.</p>
+                </div>
+            </details>
+            <details>
+                <summary style="font-size:1.4rem; cursor:pointer;">🔹 Caso 5: Thiago (não verbal) – PECS</summary>
+                <div style="background:white; padding:1.5rem; border-radius:20px; margin-top:1rem;">
+                    <p><strong>Fases do PECS:</strong> troca física → discriminação → frase "eu quero" + item.</p>
+                </div>
+            </details>
+        </section>
+
+        <!-- SIMULADO INTERATIVO (algumas questões exemplo) -->
+        <section id="simulado">
+            <h2>📝 Simulado rápido (5 questões)</h2>
+            <div id="q1" class="simulado-item">
+                <p><strong>1.</strong> O DSM-5 caracteriza o TEA através de:</p>
+                <button class="resp-btn" onclick="toggleAnswer('a1')">Ver resposta</button>
+                <div id="a1" class="answer">b) Déficits comunicação/interação social e padrões restritos/repetitivos.</div>
+            </div>
+            <div class="simulado-item">
+                <p><strong>2.</strong> Qual a função do comportamento de Miguel (jogar lápis, fugir)?</p>
+                <button class="resp-btn" onclick="toggleAnswer('a2')">Ver resposta</button>
+                <div id="a2" class="answer">Fuga/Esquiva (reforço negativo).</div>
+            </div>
+            <div class="simulado-item">
+                <p><strong>3.</strong> Os 7 princípios da ABA foram definidos por:</p>
+                <button class="resp-btn" onclick="toggleAnswer('a3')">Ver resposta</button>
+                <div id="a3" class="answer">Baer, Wolf e Risley (1968).</div>
+            </div>
+            <div class="simulado-item">
+                <p><strong>4.</strong> DRI significa reforçar um comportamento:</p>
+                <button class="resp-btn" onclick="toggleAnswer('a4')">Ver resposta</button>
+                <div id="a4" class="answer">Incompatível com o problemático.</div>
+            </div>
+            <div class="simulado-item">
+                <p><strong>5.</strong> Qual lei institui a Política Nacional de Proteção dos Direitos da Pessoa com TEA?</p>
+                <button class="resp-btn" onclick="toggleAnswer('a5')">Ver resposta</button>
+                <div id="a5" class="answer">Lei 12.764/2012 (Berenice Piana).</div>
+            </div>
+            <p>✏️ Mais 45 questões no material original – consulte o guia completo.</p>
+        </section>
+
+        <!-- COLA RÁPIDA (quadro sinóptico) -->
+        <section id="colarapida">
+            <h2>⚡ Cola rápida (resumão)</h2>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem;">
+                <div style="background:#fff; border-radius:20px; padding:1.5rem;">
+                    <span style="font-size:2rem;">🧩</span>
+                    <p><strong>TEA = DÍADE</strong><br>Social + Repetitivo</p>
+                </div>
+                <div style="background:#fff; border-radius:20px; padding:1.5rem;">
+                    <span style="font-size:2rem;">🔁</span>
+                    <p><strong>ABC</strong><br>Antecedente → Comportamento → Consequência</p>
+                </div>
+                <div style="background:#fff; border-radius:20px; padding:1.5rem;">
+                    <span style="font-size:2rem;">📈</span>
+                    <p><strong>Reforço</strong> aumenta / <strong>Punição</strong> diminui</p>
+                </div>
+                <div style="background:#fff; border-radius:20px; padding:1.5rem;">
+                    <span style="font-size:2rem;">4️⃣</span>
+                    <p><strong>Funções:</strong> Atenção, Tangível, Fuga, Sensorial</p>
+                </div>
+                <div style="background:#fff; border-radius:20px; padding:1.5rem;">
+                    <span style="font-size:2rem;">7️⃣</span>
+                    <p><strong>AGETCBA</strong> – os 7 princípios</p>
+                </div>
+                <div style="background:#fff; border-radius:20px; padding:1.5rem;">
+                    <span style="font-size:2rem;">📅</span>
+                    <p><strong>Kanner 1943</strong> • Asperger 1944</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer">
+            🌟 Todos os arquivos integrados: Guia completo, casos práticos, simulado, cola rápida.<br>
+            Use o menu lateral para navegar. Clique nos flashcards para revisar.
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            var el = document.getElementById(id);
+            el.classList.toggle('show');
+        }
+        // suavizar clique nos links do menu
+        document.querySelectorAll('.sidebar a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if(target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+    <!-- pequeno ajuste para mostrar seções sem sobreposição do menu -->
+    <style>
+        section { scroll-margin-top: 1rem; }
+    </style>
+</body>
+</html>
